@@ -19,14 +19,11 @@ import java.util.List;
 
 public class RenterActivity extends AppCompatActivity
 {
+	private EditText locationText, descriptionText, phoneText, priceText;
+	private Button btnDatePicker, btnTimePicker, btnDatePickerEnd, btnTimePickerEnd;
+	private TextView txtDate, txtTime, txtDateEnd, txtTimeEnd;
+	private Button submitButton;
 
-	EditText locationText, descriptionText, phoneText, priceText;
-	Button btnDatePicker, btnTimePicker, btnDatePickerEnd, btnTimePickerEnd;
-	TextView txtDate, txtTime, txtDateEnd, txtTimeEnd;
-	Button submitButton;
-	private TimePicker timePicker1;
-	private TimePicker timePicker2;
-	private DatePicker datePicker;
 	private int mYear, mMonth, mDay, mHour, mMinute;
 
 	@Override
@@ -46,15 +43,15 @@ public class RenterActivity extends AppCompatActivity
 			}
 		});
 
-		btnDatePicker = (Button) findViewById(R.id.btn_date);
-		btnTimePicker = (Button) findViewById(R.id.btn_time);
-		txtDate = (TextView) findViewById(R.id.in_date);
-		txtTime = (TextView) findViewById(R.id.in_time);
+		btnDatePicker = findViewById(R.id.btn_date);
+		btnTimePicker = findViewById(R.id.btn_time);
+		txtDate = findViewById(R.id.in_date);
+		txtTime = findViewById(R.id.in_time);
 
-		btnDatePickerEnd = (Button) findViewById(R.id.btn_end_date);
-		btnTimePickerEnd = (Button) findViewById(R.id.btn_end_time);
-		txtDateEnd = (TextView) findViewById(R.id.in_end_date);
-		txtTimeEnd = (TextView) findViewById(R.id.in_end_time);
+		btnDatePickerEnd = findViewById(R.id.btn_end_date);
+		btnTimePickerEnd = findViewById(R.id.btn_end_time);
+		txtDateEnd = findViewById(R.id.in_end_date);
+		txtTimeEnd = findViewById(R.id.in_end_time);
 
 		final Context self = this;
 

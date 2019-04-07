@@ -38,6 +38,11 @@ public class ParkingSpot
 		this.renteeEmail = renteeEmail;
 	}
 
+	public boolean isValid()
+	{
+		return this.id != null && this.userEmail != null;
+	}
+
 	public boolean isRented()
 	{
 		return this.renteeEmail != null && this.renteeEmail.length() > 0;

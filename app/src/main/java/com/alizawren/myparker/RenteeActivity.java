@@ -40,21 +40,34 @@ public class RenteeActivity extends AppCompatActivity
 		{
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id)
 			{
+				boolean flag = false;
 				ParkingSpot parkingSpot = adapterSpots.get(position);
 
 				if (parkingSpot.isRented())
 				{
-					Util.unrentParkingSpot(parkingSpot);
+					if (Util.getCurrentUser().getEmail().equals(parkingSpot.renteeEmail))
+					{
+						Util.unrentParkingSpot(parkingSpot);
+						flag = true;
+					}
+					else
+					{
+						//Not yours!
+					}
 				}
 				else
 				{
 					Util.rentParkingSpot(parkingSpot);
+					flag = true;
 				}
 
-				//Restart the activity....
-				Intent intent = getIntent();
-				finish();
-				startActivity(intent);
+				if (flag)
+				{
+					//Restart the activity....
+					Intent intent = getIntent();
+					finish();
+					startActivity(intent);
+				}
 			}
 		});
 
@@ -65,20 +78,19 @@ public class RenteeActivity extends AppCompatActivity
 			{
 				for (ParkingSpot parkingSpot : parkingSpots)
 				{
-					if (!Util.getCurrentUser().getEmail().equals(parkingSpot.userEmail))
-					{
-						if (parkingSpot.isRented()) continue;
-						adapter.add(parkingSpot.toString());
-						adapterSpots.add(parkingSpot);
-					}
-					else if (parkingSpot.isRented())
+					if (Util.getCurrentUser().getEmail().equals(parkingSpot.userEmail)) continue;
+					if (!parkingSpot.isValid()) continue;
+					if (parkingSpot.isRented())
 					{
 						adapter.add("RENTED - " + parkingSpot.toString());
 						adapterSpots.add(parkingSpot);
 					}
+					else
+					{
+						adapter.add(parkingSpot.toString());
+						adapterSpots.add(parkingSpot);
+					}
 				}
-				System.out.println(parkingSpots);
-				System.out.println(adapterSpots);
 			}
 		});
 

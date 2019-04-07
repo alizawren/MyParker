@@ -53,7 +53,7 @@
                 android:layout_marginTop="10dp"
                 android:background="@android:color/background_light"
                 android:hint="Phone Number"
-                android:inputType="numberSigned"
+                android:inputType="phone"
                 android:textColor="@android:color/black"
                 android:textSize="20sp" />
 
@@ -72,67 +72,61 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-                <TextView
-                    android:id="@+id/in_time"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
                 <Button
                     android:id="@+id/btn_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Set Start Time" />
+                <TextView
+                    android:id="@+id/in_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/in_date" />
                 <Button
                     android:id="@+id/btn_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Set Start Date" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/in_date" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Set End Time"
+                    android:id="@+id/btn_end_time"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/in_end_time" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Set Start Time"
-                    android:id="@+id/btn_end_time"/>
+                    android:text="Set End Date"
+                    android:id="@+id/btn_end_date"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/in_end_date" />
             </LinearLayout>
-
-
-            <EditText
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/in_end_date"
-                android:layout_marginTop="12dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Set Start Date"
-                android:id="@+id/btn_end_date"
-                android:layout_alignBottom="@+id/in_date"
-                android:layout_toRightOf="@+id/in_date"
-                android:layout_toEndOf="@+id/in_date" />
-
-
 
             <Button
                 android:layout_width="wrap_content"
