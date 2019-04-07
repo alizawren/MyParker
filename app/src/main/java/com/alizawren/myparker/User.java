@@ -4,38 +4,33 @@ package com.alizawren.myparker;
  * Created by Alisa Ren on 4/6/2019.
  */
 
-public class User
-{
-	private String userID;
-	private String displayName;
-	private String email;
+public class User {
 
-	public User(String id, String displayName, String email)
-	{
-		this.userID = id;
-		this.displayName = displayName;
-		this.email = email;
-	}
+  private String userID;
+  private String displayName;
+  private String email;
 
-	public User()
-	{
-		this.userID = null;
-		this.displayName = "???";
-		this.email = "???";
-	}
+  public User(String id, String displayName, String email) {
+    this.userID = id;
+    this.displayName = displayName;
+    this.email = email;
+  }
 
-	public String getUserID()
-	{
-		return this.userID;
-	}
+  public User() {
+    this.userID = null;
+    this.displayName = "???";
+    this.email = "???";
+  }
 
-	public String getDisplayName()
-	{
-		return this.displayName;
-	}
+  public String getUserID() {
+    return this.userID;
+  }
 
-	public String getEmail()
-	{
-		return this.email;
-	}
+  public String getDisplayName() {
+    return this.displayName;
+  }
+
+  public String getEmail() {
+    return this.email;
+  }
 }
