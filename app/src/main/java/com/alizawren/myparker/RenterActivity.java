@@ -164,9 +164,9 @@ public class RenterActivity extends AppCompatActivity {
         String startDateText = txtDate.getText().toString();
         String endDateText = txtDateEnd.getText().toString();
         User theUser = MainActivity.currentUser;
-        ParkingSpot newSpot = new ParkingSpot(Util.getNewID(), theUser.getEmail(), location, desc,
+        ParkingSpot newSpot = new ParkingSpot(ParkingUtil.getNewID(), theUser.getEmail(), location, desc,
             phone, priceValue, startTimeText, endTimeText, startDateText, endDateText, "");
-        Util.addParkingSpot(theUser, newSpot);
+        ParkingUtil.addParkingSpot(theUser, newSpot);
 
         finish();
       }
@@ -180,7 +180,7 @@ public class RenterActivity extends AppCompatActivity {
     list.setOnItemClickListener(new OnItemClickListener() {
       @Override
       public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Util.removeParkingSpot(spots.get(i));
+        ParkingUtil.removeParkingSpot(spots.get(i));
 
         //Restart the activity....
         Intent intent = getIntent();
@@ -189,7 +189,7 @@ public class RenterActivity extends AppCompatActivity {
       }
     });
 
-    Util.getParkingSpots().onResult(new Consumer<List<ParkingSpot>>() {
+    ParkingUtil.getParkingSpots().onResult(new Consumer<List<ParkingSpot>>() {
       @Override
       public void accept(List<ParkingSpot> parkingSpots) {
         for (ParkingSpot parkingSpot : parkingSpots) {

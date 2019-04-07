@@ -22,9 +22,9 @@ import java.util.UUID;
  * Created by Alisa Ren on 4/6/2019.
  */
 
-public class Util {
+public class ParkingUtil {
 
-  public static final String TAG = "Util";
+  public static final String TAG = "ParkingUtil";
   public static final String PARKING_SPOT_COLLECTION_KEY = "parkingSpots";
   public static final String USER_COLLECTION_KEY = "users";
 

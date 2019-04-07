@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
               Log.d(TAG, "signInWithCredential:success");
               FirebaseUser user = mAuth.getCurrentUser();
 
-              Util.getUser(user).onResult(new Consumer<User>() {
+              ParkingUtil.getUser(user).onResult(new Consumer<User>() {
                 @Override
                 public void accept(User user) {
                   currentUser = user;
