@@ -148,6 +148,12 @@
                 android:text="Submit" />
 
 
+            <ListView
+                android:id="@+id/display"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="50dp"
+                android:textSize="50dp"/>
         </LinearLayout>
     </ScrollView>
 

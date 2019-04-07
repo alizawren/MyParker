@@ -7,14 +7,19 @@ import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.protobuf.Internal;
+
 import java.util.Calendar;
+import java.util.List;
 
 public class RenterActivity extends AppCompatActivity {
 
@@ -173,15 +178,31 @@ public class RenterActivity extends AppCompatActivity {
                 String endTimeText = txtTimeEnd.getText().toString();
                 String startDateText = txtDate.getText().toString();
                 String endDateText = txtDateEnd.getText().toString();
-                ParkingSpot newSpot = new ParkingSpot(Util.getNewID(), location, desc, phone, 0.0f, startTimeText,endTimeText,startDateText,endDateText);
                 User theUser = Util.getCurrentUser();
+                ParkingSpot newSpot = new ParkingSpot(Util.getNewID(), theUser.getEmail(), location, desc, phone, 0.0f, startTimeText,endTimeText,startDateText,endDateText, "");
                 Util.addParkingSpot(theUser, newSpot);
 
                 finish();
             }
         });
 
-        TextView display = findViewById(R.id.display);
+        ListView list = findViewById(R.id.display);
+        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1);
+        list.setAdapter(adapter);
+
+        Util.getParkingSpots().onResult(new Consumer<List<ParkingSpot>>() {
+            @Override
+            public void accept(List<ParkingSpot> parkingSpots) {
+                for(ParkingSpot parkingSpot : parkingSpots)
+                {
+                    if (parkingSpot.userEmail == Util.getCurrentUser().getEmail())
+                    {
+                        adapter.add(parkingSpot.location);
+                    }
+                }
+            }
+        });
     }
 
 
