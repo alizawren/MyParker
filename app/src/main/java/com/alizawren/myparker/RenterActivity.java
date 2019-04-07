@@ -176,6 +176,8 @@ public class RenterActivity extends AppCompatActivity {
                 ParkingSpot newSpot = new ParkingSpot(Util.getNewID(), location, desc, phone, 0.0f, startTimeText,endTimeText,startDateText,endDateText);
                 User theUser = Util.getCurrentUser();
                 Util.addParkingSpot(theUser, newSpot);
+
+                finish();
             }
         });
 

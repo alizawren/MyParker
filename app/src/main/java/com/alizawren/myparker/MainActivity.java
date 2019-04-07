@@ -60,10 +60,9 @@ public class MainActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        Util.getUser(currentUser);
+        //FirebaseUser currentUser = mAuth.getCurrentUser();
 
-        updateUI(currentUser);
+        //updateUI(currentUser);
 
 
         // Check for existing Google Sign In account, if the user is already signed in
@@ -145,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            Util.getUser(user);
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.

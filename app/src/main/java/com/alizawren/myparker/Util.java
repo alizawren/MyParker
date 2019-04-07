@@ -35,7 +35,7 @@ public class Util {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
-        if (firebaseUser != null)
+        if (firebaseUser == null)
         {
             callback.reject();
             return callback;
@@ -77,7 +77,7 @@ public class Util {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
-        if (firebaseUser != null)
+        if (firebaseUser == null)
         {
             callback.reject();
             return callback;
@@ -85,20 +85,20 @@ public class Util {
 
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
 
-        firestore.collection("parkingspots")
+        firestore.collection("parkingSpots")
                 .document(parkingSpot.getID())
                 .set(parkingSpot)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                        Log.d(TAG, "Parking spot successfully written!");
                         callback.resolve(parkingSpot);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error writing document", e);
+                        Log.w(TAG, "Error writing parking spot", e);
                         callback.reject();
                     }
                 });
@@ -116,8 +116,9 @@ public class Util {
         System.out.println("Get user is called");
         final Callback<User> callback = new Callback<>();
 
-        if (firebaseUser != null)
+        if (firebaseUser == null)
         {
+            System.out.println("User was null, returning");
             callback.reject();
             return callback;
         }

@@ -21,6 +21,8 @@ public class RenteeActivity extends AppCompatActivity {
             }
         });
 
+
+
         TextView display = findViewById(R.id.display);
 
     }
