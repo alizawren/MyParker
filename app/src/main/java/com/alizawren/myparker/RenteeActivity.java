@@ -159,8 +159,8 @@ public class RenteeActivity extends AppCompatActivity implements OnMapReadyCallb
                 if (parkingSpot.isRented()) {
                   // Open a new dialog to manage this parking spot
                   AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-                  alertDialogBuilder.setMessage("Are you done with renting this spot?");
-                  alertDialogBuilder.setPositiveButton("I'm done", new DialogInterface.OnClickListener() {
+                  alertDialogBuilder.setMessage("Would you like to return this rental?");
+                  alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                       // yes was pressed
                       ParkingUtil.unrentParkingSpot(parkingSpot);
@@ -169,7 +169,7 @@ public class RenteeActivity extends AppCompatActivity implements OnMapReadyCallb
                       startActivity(intent);
                     }
                   });
-                  alertDialogBuilder.setNegativeButton("I'm  not done", new DialogInterface.OnClickListener() {
+                  alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                       // no was pressed
                       Intent intent = getIntent();

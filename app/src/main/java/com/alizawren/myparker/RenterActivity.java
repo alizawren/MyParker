@@ -3,8 +3,10 @@ package com.alizawren.myparker;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -195,8 +197,37 @@ public class RenterActivity extends AppCompatActivity {
         ListView listView = findViewById(R.id.display);
         ParkingListAdapter.initParkingListView(context, listView, spots, new OnItemClickListener() {
           @Override
-          public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            ParkingUtil.removeParkingSpot(spots.get(i));
+          public void onItemClick(AdapterView<?> adapterView, View view, final int i, long l) {
+            // Open a new dialog to manage this parking spot
+
+            final ParkingSpot parkingSpot = spots.get(i);
+
+            String spotInfo = parkingSpot.toString();
+
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+            alertDialogBuilder.setMessage(spotInfo);
+            alertDialogBuilder.setPositiveButton("Take Down Rental", new DialogInterface.OnClickListener() {
+              public void onClick(DialogInterface dialog, int id) {
+                // yes was pressed
+                ParkingUtil.removeParkingSpot(spots.get(i));
+                Intent intent = getIntent();
+                finish();
+                startActivity(intent);
+              }
+            });
+            alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+              public void onClick(DialogInterface dialog, int id) {
+                // no was pressed
+                Intent intent = getIntent();
+                finish();
+                startActivity(intent);
+              }
+
+            });
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog.show();
+
+
 
             //Restart the activity....
             Intent intent = getIntent();
