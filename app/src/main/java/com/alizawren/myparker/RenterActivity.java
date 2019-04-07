@@ -172,7 +172,10 @@ public class RenterActivity extends AppCompatActivity {
             phone, price, startTimeText, endTimeText, startDateText, endDateText, "");
         ParkingUtil.addParkingSpot(theUser, newSpot);
 
+        //Restart the activity....
+        Intent intent = getIntent();
         finish();
+        startActivity(intent);
       }
     });
 
