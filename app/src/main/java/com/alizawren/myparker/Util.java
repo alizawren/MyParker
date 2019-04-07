@@ -106,7 +106,6 @@ public class Util {
     }
 
     FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-
     firestore.collection(PARKING_SPOT_COLLECTION_KEY)
         .document(parkingSpot.getID())
         .delete()
@@ -124,7 +123,7 @@ public class Util {
         });
   }
 
-  static public void rentParkingSpot(ParkingSpot parkingSpot) {
+  static public void rentParkingSpot(User currentUser, ParkingSpot parkingSpot) {
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
@@ -132,7 +131,7 @@ public class Util {
       return;
     }
 
-    parkingSpot.renteeEmail = currentUser.getEmail();
+    parkingSpot.setClientEmail(currentUser.getEmail());
 
     FirebaseFirestore firestore = FirebaseFirestore.getInstance();
     firestore.collection(PARKING_SPOT_COLLECTION_KEY)
@@ -160,7 +159,7 @@ public class Util {
       return;
     }
 
-    parkingSpot.renteeEmail = "";
+    parkingSpot.setClientEmail("");
 
     FirebaseFirestore firestore = FirebaseFirestore.getInstance();
     firestore.collection(PARKING_SPOT_COLLECTION_KEY)

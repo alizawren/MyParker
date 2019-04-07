@@ -6,27 +6,27 @@ package com.alizawren.myparker;
 
 public class ParkingSpot {
 
-  public String userEmail;
-  public String location;
-  public String description;
-  public String phoneNumber;
-  public float price;
-  public String startTime;
-  public String endTime;
-  public String startDate;
-  public String endDate;
-  public String renteeEmail;
+  private String ownerEmail;
+  private String location;
+  private String description;
+  private String phoneNumber;
+  private float price;
+  private String startTime;
+  private String endTime;
+  private String startDate;
+  private String endDate;
+  private String clientEmail;
   private String id;
 
   public ParkingSpot() {
     this.id = "";
   }
 
-  public ParkingSpot(String id, String userEmail, String location, String description,
+  public ParkingSpot(String id, String ownerEmail, String location, String description,
       String phoneNumber, float price, String startTime, String endTime, String startDate,
-      String endDate, String renteeEmail) {
+      String endDate, String clientEmail) {
     this.id = id;
-    this.userEmail = userEmail;
+    this.ownerEmail = ownerEmail;
     this.location = location;
     this.description = description;
     this.phoneNumber = phoneNumber;
@@ -35,15 +35,68 @@ public class ParkingSpot {
     this.endTime = endTime;
     this.startDate = startDate;
     this.endDate = endDate;
-    this.renteeEmail = renteeEmail;
+    this.clientEmail = clientEmail;
+  }
+
+  public boolean isOwnedBy(User user) {
+    return user.getEmail().equals(this.ownerEmail);
+  }
+
+  public boolean isUsedBy(User user) {
+    return user.getEmail().equals(this.clientEmail);
   }
 
   public boolean isValid() {
-    return this.id != null && this.userEmail != null;
+    return this.id != null && this.ownerEmail != null;
   }
 
   public boolean isRented() {
-    return this.renteeEmail != null && this.renteeEmail.length() > 0;
+    return this.clientEmail != null && this.clientEmail.length() > 0;
+  }
+
+  public String getOwnerEmail() {
+    return ownerEmail;
+  }
+
+  public String getLocation() {
+    return location;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public String getPhoneNumber() {
+    return phoneNumber;
+  }
+
+  public float getPrice() {
+    return price;
+  }
+
+  public String getStartTime() {
+    return startTime;
+  }
+
+  public String getEndTime() {
+    return endTime;
+  }
+
+  public String getStartDate() {
+    return startDate;
+  }
+
+  public String getEndDate() {
+    return endDate;
+  }
+
+  public String getClientEmail() {
+    return clientEmail;
+  }
+
+  public ParkingSpot setClientEmail(String email) {
+    this.clientEmail = email;
+    return this;
   }
 
   public String getID() {

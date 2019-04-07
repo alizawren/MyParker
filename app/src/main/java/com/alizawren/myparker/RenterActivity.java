@@ -56,7 +56,7 @@ public class RenterActivity extends AppCompatActivity {
 
     final Context self = this;
 
-    btnDatePicker.setOnClickListener(new View.OnClickListener() {
+    btnTimePicker.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         // Get Current Date
@@ -74,35 +74,31 @@ public class RenterActivity extends AppCompatActivity {
 
                 txtDate.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
 
+                // Get Current Time
+                final Calendar c = Calendar.getInstance();
+                mHour = c.get(Calendar.HOUR_OF_DAY);
+                mMinute = c.get(Calendar.MINUTE);
+
+                // Launch Time Picker Dialog
+                TimePickerDialog timePickerDialog = new TimePickerDialog(self,
+                    new TimePickerDialog.OnTimeSetListener() {
+
+                      @Override
+                      public void onTimeSet(TimePicker view, int hourOfDay,
+                          int minute) {
+
+                        txtTime.setText(hourOfDay + ":" + minute);
+                      }
+                    }, mHour, mMinute, false);
+                timePickerDialog.show();
+
               }
             }, mYear, mMonth, mDay);
         datePickerDialog.show();
       }
     });
-    btnTimePicker.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        // Get Current Time
-        final Calendar c = Calendar.getInstance();
-        mHour = c.get(Calendar.HOUR_OF_DAY);
-        mMinute = c.get(Calendar.MINUTE);
 
-        // Launch Time Picker Dialog
-        TimePickerDialog timePickerDialog = new TimePickerDialog(self,
-            new TimePickerDialog.OnTimeSetListener() {
-
-              @Override
-              public void onTimeSet(TimePicker view, int hourOfDay,
-                  int minute) {
-
-                txtTime.setText(hourOfDay + ":" + minute);
-              }
-            }, mHour, mMinute, false);
-        timePickerDialog.show();
-      }
-    });
-
-    btnDatePickerEnd.setOnClickListener(new View.OnClickListener() {
+    btnTimePickerEnd.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         // Get Current Date
@@ -120,31 +116,27 @@ public class RenterActivity extends AppCompatActivity {
 
                 txtDateEnd.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
 
+                // Get Current Time
+                final Calendar c = Calendar.getInstance();
+                mHour = c.get(Calendar.HOUR_OF_DAY);
+                mMinute = c.get(Calendar.MINUTE);
+
+                // Launch Time Picker Dialog
+                TimePickerDialog timePickerDialog = new TimePickerDialog(self,
+                    new TimePickerDialog.OnTimeSetListener() {
+
+                      @Override
+                      public void onTimeSet(TimePicker view, int hourOfDay,
+                          int minute) {
+
+                        txtTimeEnd.setText(hourOfDay + ":" + minute);
+                      }
+                    }, mHour, mMinute, false);
+                timePickerDialog.show();
+
               }
             }, mYear, mMonth, mDay);
         datePickerDialog.show();
-      }
-    });
-    btnTimePickerEnd.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        // Get Current Time
-        final Calendar c = Calendar.getInstance();
-        mHour = c.get(Calendar.HOUR_OF_DAY);
-        mMinute = c.get(Calendar.MINUTE);
-
-        // Launch Time Picker Dialog
-        TimePickerDialog timePickerDialog = new TimePickerDialog(self,
-            new TimePickerDialog.OnTimeSetListener() {
-
-              @Override
-              public void onTimeSet(TimePicker view, int hourOfDay,
-                  int minute) {
-
-                txtTimeEnd.setText(hourOfDay + ":" + minute);
-              }
-            }, mHour, mMinute, false);
-        timePickerDialog.show();
       }
     });
 
@@ -167,7 +159,7 @@ public class RenterActivity extends AppCompatActivity {
         float priceValue = 0.0F;
         try {
           priceValue = Float.parseFloat(price);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         String startTimeText = txtTime.getText().toString();
         String endTimeText = txtTimeEnd.getText().toString();
@@ -203,7 +195,7 @@ public class RenterActivity extends AppCompatActivity {
       @Override
       public void accept(List<ParkingSpot> parkingSpots) {
         for (ParkingSpot parkingSpot : parkingSpots) {
-          if (Util.getCurrentUser().getEmail().equals(parkingSpot.userEmail)) {
+          if (parkingSpot.isOwnedBy(Util.getCurrentUser())) {
             adapter.add(parkingSpot.toString());
             spots.add(parkingSpot);
           }

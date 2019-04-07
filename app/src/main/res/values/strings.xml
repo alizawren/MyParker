@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">MyParker</string>
-    <string name="default_web_client_id">925059793468-le6snp8qlod6c03a21seq9lpciu5rqho.apps.googleusercontent.com</string>
+  <string name="app_name">MyParker</string>
+  <string name="default_web_client_id">925059793468-le6snp8qlod6c03a21seq9lpciu5rqho.apps.googleusercontent.com</string>
 </resources>
