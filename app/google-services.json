@@ -21,6 +21,14 @@
             "package_name": "com.alizawren.myparker",
             "certificate_hash": "f262bf147c53b46b3f275fdafe23170ea9ad8aaa"
           }
+        },
+        {
+          "client_id": "925059793468-dg062kcd66b0l476gkd35imj6j3r9vuv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.alizawren.myparker",
+            "certificate_hash": "501c4cccdc03c51511c4e2b35d669d463935e78b"
+          }
         }
       ],
       "api_key": [

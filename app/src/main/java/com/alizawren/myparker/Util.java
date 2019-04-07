@@ -3,7 +3,6 @@ package com.alizawren.myparker;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -24,209 +23,228 @@ import java.util.UUID;
  * Created by Alisa Ren on 4/6/2019.
  */
 
-public class Util {
+public class Util
+{
 
-    public static final String TAG = "Util";
-    private static User currentUser;
+	public static final String TAG = "Util";
+	public static final String PARKING_SPOT_COLLECTION_KEY = "parkingSpots";
 
-    static public Callback<List<ParkingSpot>> getParkingSpots()
-    {
-        final Callback<List<ParkingSpot>> callback = new Callback<>();
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+	private static User currentUser;
 
-        if (firebaseUser == null)
-        {
-            callback.reject();
-            return callback;
-        }
+	static public Callback<List<ParkingSpot>> getParkingSpots()
+	{
+		final Callback<List<ParkingSpot>> callback = new Callback<>();
+		FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+		FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
-        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-        firestore.collection("parkingspots")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+		if (firebaseUser == null)
+		{
+			callback.reject();
+			return callback;
+		}
 
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task)
-                    {
-                        List<ParkingSpot> result = new ArrayList<>();
-                        if (task.isSuccessful())
-                        {
-                            for(QueryDocumentSnapshot document : task.getResult())
-                            {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                                result.add(document.toObject(ParkingSpot.class));
+		FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+		firestore.collection(PARKING_SPOT_COLLECTION_KEY)
+				.get()
+				.addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+				{
 
-                            }
-                        }
-                        else
-                        {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
+					@Override
+					public void onComplete(@NonNull Task<QuerySnapshot> task)
+					{
+						List<ParkingSpot> result = new ArrayList<>();
+						if (task.isSuccessful())
+						{
+							for (QueryDocumentSnapshot document : task.getResult())
+							{
+								Log.d(TAG, document.getId() + " => " + document.getData());
+								result.add(document.toObject(ParkingSpot.class));
 
-                        callback.resolve(result);
-                    }
-                });
+							}
+						}
+						else
+						{
+							Log.d(TAG, "Error getting documents: ", task.getException());
+						}
 
-        return callback;
-    }
+						callback.resolve(result);
+					}
+				});
 
-    static public Callback<ParkingSpot> addParkingSpot(User user, final ParkingSpot parkingSpot)
-    {
-        final Callback<ParkingSpot> callback = new Callback<>();
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+		return callback;
+	}
 
-        if (firebaseUser == null)
-        {
-            callback.reject();
-            return callback;
-        }
+	static public Callback<ParkingSpot> addParkingSpot(User user, final ParkingSpot parkingSpot)
+	{
+		final Callback<ParkingSpot> callback = new Callback<>();
+		FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+		FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
-        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+		if (firebaseUser == null)
+		{
+			callback.reject();
+			return callback;
+		}
 
-        firestore.collection("parkingSpots")
-                .document(parkingSpot.getID())
-                .set(parkingSpot)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "Parking spot successfully written!");
-                        callback.resolve(parkingSpot);
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error writing parking spot", e);
-                        callback.reject();
-                    }
-                });
+		FirebaseFirestore firestore = FirebaseFirestore.getInstance();
 
-        return callback;
-    }
+		firestore.collection(PARKING_SPOT_COLLECTION_KEY)
+				.document(parkingSpot.getID())
+				.set(parkingSpot)
+				.addOnSuccessListener(new OnSuccessListener<Void>()
+				{
+					@Override
+					public void onSuccess(Void aVoid)
+					{
+						Log.d(TAG, "Parking spot successfully written!");
+						callback.resolve(parkingSpot);
+					}
+				})
+				.addOnFailureListener(new OnFailureListener()
+				{
+					@Override
+					public void onFailure(@NonNull Exception e)
+					{
+						Log.w(TAG, "Error writing parking spot", e);
+						callback.reject();
+					}
+				});
 
-    static public void rentParkingSpot(ParkingSpot parkingSpot)
-    {
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+		return callback;
+	}
 
-        if (firebaseUser == null)
-        {
-            return;
-        }
+	static public void rentParkingSpot(ParkingSpot parkingSpot)
+	{
+		FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+		FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
-        parkingSpot.renteeEmail = currentUser.getEmail();
+		if (firebaseUser == null)
+		{
+			return;
+		}
 
-        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-        firestore.collection("parkingSpots")
-                .document(parkingSpot.getID())
-                .set(parkingSpot)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "Parking spot successfully written!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error writing parking spot", e);
-                    }
-                });
-    }
+		parkingSpot.renteeEmail = currentUser.getEmail();
 
-    static public void unrentParkingSpot(ParkingSpot parkingSpot)
-    {
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+		FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+		firestore.collection(PARKING_SPOT_COLLECTION_KEY)
+				.document(parkingSpot.getID())
+				.set(parkingSpot)
+				.addOnSuccessListener(new OnSuccessListener<Void>()
+				{
+					@Override
+					public void onSuccess(Void aVoid)
+					{
+						Log.d(TAG, "Parking spot successfully written!");
+					}
+				})
+				.addOnFailureListener(new OnFailureListener()
+				{
+					@Override
+					public void onFailure(@NonNull Exception e)
+					{
+						Log.w(TAG, "Error writing parking spot", e);
+					}
+				});
+	}
 
-        if (firebaseUser == null)
-        {
-            return;
-        }
+	static public void unrentParkingSpot(ParkingSpot parkingSpot)
+	{
+		FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+		FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
-        parkingSpot.renteeEmail = "";
+		if (firebaseUser == null)
+		{
+			return;
+		}
 
-        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-        firestore.collection("parkingSpots")
-                .document(parkingSpot.getID())
-                .set(parkingSpot)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "Parking spot successfully written!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error writing parking spot", e);
-                    }
-                });
-    }
+		parkingSpot.renteeEmail = "";
 
-    static public User getCurrentUser()
-    {
-        return currentUser;
-    }
+		FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+		firestore.collection(PARKING_SPOT_COLLECTION_KEY)
+				.document(parkingSpot.getID())
+				.set(parkingSpot)
+				.addOnSuccessListener(new OnSuccessListener<Void>()
+				{
+					@Override
+					public void onSuccess(Void aVoid)
+					{
+						Log.d(TAG, "Parking spot successfully written!");
+					}
+				})
+				.addOnFailureListener(new OnFailureListener()
+				{
+					@Override
+					public void onFailure(@NonNull Exception e)
+					{
+						Log.w(TAG, "Error writing parking spot", e);
+					}
+				});
+	}
 
-    static public Callback<User> getUser(final FirebaseUser firebaseUser)
-    {
-        System.out.println("Get user is called");
-        final Callback<User> callback = new Callback<>();
+	static public User getCurrentUser()
+	{
+		return currentUser;
+	}
 
-        if (firebaseUser == null)
-        {
-            System.out.println("User was null, returning");
-            callback.reject();
-            return callback;
-        }
+	static public Callback<User> getUser(final FirebaseUser firebaseUser)
+	{
+		System.out.println("Get user is called");
+		final Callback<User> callback = new Callback<>();
 
-        final FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+		if (firebaseUser == null)
+		{
+			System.out.println("User was null, returning");
+			callback.reject();
+			return callback;
+		}
 
-        final DocumentReference userReference = firestore.collection("users").document(firebaseUser.getUid());
+		final FirebaseFirestore firestore = FirebaseFirestore.getInstance();
 
-        userReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task)
-            {
-                if (task.isSuccessful())
-                {
-                    DocumentSnapshot userDocument = task.getResult();
-                    if (!userDocument.exists())
-                    {
-                        User newUser = new User(firebaseUser.getUid(), firebaseUser.getDisplayName(), firebaseUser.getEmail());
-                        userReference.set(newUser);
-                        firestore.document("emails/" + newUser.getEmail()).set(newUser);
-                        callback.resolve(newUser);
+		final DocumentReference userReference = firestore.collection("users").document(firebaseUser.getUid());
 
-                        //TODO: THIS IS BAD!
-                        currentUser = newUser;
-                        System.out.println("MADE A USER");
-                    }
-                    else
-                    {
-                        User newUser = userDocument.toObject(User.class);
-                        callback.resolve(newUser);
+		userReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>()
+		{
+			@Override
+			public void onComplete(@NonNull Task<DocumentSnapshot> task)
+			{
+				if (task.isSuccessful())
+				{
+					DocumentSnapshot userDocument = task.getResult();
+					if (!userDocument.exists())
+					{
+						User newUser = new User(firebaseUser.getUid(), firebaseUser.getDisplayName(), firebaseUser.getEmail());
+						userReference.set(newUser);
+						firestore.document("emails/" + newUser.getEmail()).set(newUser);
+						callback.resolve(newUser);
 
-                        //TODO: THIS IS BAD!
-                        currentUser = newUser;
+						//TODO: THIS IS BAD!
+						currentUser = newUser;
+						System.out.println("MADE A USER");
+					}
+					else
+					{
+						User newUser = userDocument.toObject(User.class);
+						callback.resolve(newUser);
 
-                        System.out.println("had A USER");
-                    }
-                }
-                else {
-                    System.out.println("Task wasn't successful");
-                }
-            }
-        });
+						//TODO: THIS IS BAD!
+						currentUser = newUser;
 
-        return callback;
-    }
+						System.out.println("had A USER");
+					}
+				}
+				else
+				{
+					System.out.println("Task wasn't successful");
+				}
+			}
+		});
 
-    static public String getNewID() {
-        return UUID.randomUUID().toString();
-    }
+		return callback;
+	}
+
+	static public String getNewID()
+	{
+		return UUID.randomUUID().toString();
+	}
 
 }
