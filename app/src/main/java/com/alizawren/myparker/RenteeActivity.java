@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import com.alizawren.myparker.util.Consumer;
@@ -51,40 +50,41 @@ public class RenteeActivity extends AppCompatActivity {
         }
 
         ListView listView = findViewById(R.id.display);
-        ParkingListAdapter.initParkingListView(context, listView, otherSpots, new OnItemClickListener() {
-          @Override
-          public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            ParkingSpot parkingSpot = otherSpots.get(i);
+        ParkingListAdapter
+            .initParkingListView(context, listView, otherSpots, new OnItemClickListener() {
+              @Override
+              public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                ParkingSpot parkingSpot = otherSpots.get(i);
 
-            if (!parkingSpot.isRented()) {
-              ParkingUtil.rentParkingSpot(MainActivity.currentUser, parkingSpot);
+                if (!parkingSpot.isRented()) {
+                  ParkingUtil.rentParkingSpot(MainActivity.currentUser, parkingSpot);
 
-              //Restart the activity....
-              Intent intent = getIntent();
-              finish();
-              startActivity(intent);
-            }
-          }
-        });
+                  //Restart the activity....
+                  Intent intent = getIntent();
+                  finish();
+                  startActivity(intent);
+                }
+              }
+            });
 
+        ListView myListView = findViewById(R.id.myDisplay);
+        ParkingListAdapter
+            .initParkingListView(context, myListView, mySpots, new OnItemClickListener() {
 
+              @Override
+              public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                ParkingSpot parkingSpot = mySpots.get(i);
 
-        ListView myListView = findViewById(R.id.myDisplay);        ParkingListAdapter.initParkingListView(context, myListView, mySpots, new OnItemClickListener() {
+                if (parkingSpot.isRented()) {
+                  ParkingUtil.unrentParkingSpot(parkingSpot);
 
-          @Override
-          public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            ParkingSpot parkingSpot = mySpots.get(i);
-
-            if (parkingSpot.isRented()) {
-              ParkingUtil.unrentParkingSpot(parkingSpot);
-
-              //Restart the activity....
-              Intent intent = getIntent();
-              finish();
-              startActivity(intent);
-            }
-          }
-        });
+                  //Restart the activity....
+                  Intent intent = getIntent();
+                  finish();
+                  startActivity(intent);
+                }
+              }
+            });
       }
     });
   }

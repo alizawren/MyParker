@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -168,7 +167,8 @@ public class RenterActivity extends AppCompatActivity {
         String startDateText = txtDate.getText().toString();
         String endDateText = txtDateEnd.getText().toString();
         User theUser = MainActivity.currentUser;
-        ParkingSpot newSpot = new ParkingSpot(ParkingUtil.getNewID(), theUser.getEmail(), location, desc,
+        ParkingSpot newSpot = new ParkingSpot(ParkingUtil.getNewID(), theUser.getEmail(), location,
+            desc,
             phone, price, startTimeText, endTimeText, startDateText, endDateText, "");
         ParkingUtil.addParkingSpot(theUser, newSpot);
 

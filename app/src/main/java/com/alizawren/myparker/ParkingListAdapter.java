@@ -1,27 +1,32 @@
 package com.alizawren.myparker;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import java.util.List;
 
-public class ParkingListAdapter extends BaseAdapter
-{
+public class ParkingListAdapter extends BaseAdapter {
+
   private List<ParkingSpot> parkingSpots;
   private LayoutInflater inflater;
 
-  public ParkingListAdapter(Context context, List<ParkingSpot> parkingSpots)
-  {
+  public ParkingListAdapter(Context context, List<ParkingSpot> parkingSpots) {
     super();
     this.parkingSpots = parkingSpots;
     this.inflater = LayoutInflater.from(context);
+  }
+
+  public static void initParkingListView(Context context, ListView listView,
+      final List<ParkingSpot> parkingSpots, OnItemClickListener listener) {
+    ParkingListAdapter parkingListAdapter = new ParkingListAdapter(context.getApplicationContext(),
+        parkingSpots);
+    listView.setAdapter(parkingListAdapter);
+    listView.setOnItemClickListener(listener);
   }
 
   @Override
@@ -41,8 +46,7 @@ public class ParkingListAdapter extends BaseAdapter
 
   @Override
   public View getView(int i, View view, ViewGroup viewGroup) {
-    if (view == null)
-    {
+    if (view == null) {
       view = this.inflater.inflate(R.layout.parking_spot_entry, viewGroup, false);
 
       TextView location = view.findViewById(R.id.parking_location);
@@ -57,24 +61,13 @@ public class ParkingListAdapter extends BaseAdapter
       startTime.setText(parkingSpot.getStartDate() + "-" + parkingSpot.getStartTime());
       stopTime.setText(parkingSpot.getEndDate() + "-" + parkingSpot.getEndTime());
 
-      if (parkingSpot.isRented())
-      {
+      if (parkingSpot.isRented()) {
         price.setText("RENTED");
-      }
-      else
-      {
+      } else {
         price.setText(parkingSpot.getPrice());
       }
     }
 
     return view;
-  }
-
-
-  public static void initParkingListView(Context context, ListView listView, final List<ParkingSpot> parkingSpots, OnItemClickListener listener) {
-    ParkingListAdapter parkingListAdapter = new ParkingListAdapter(context.getApplicationContext(),
-        parkingSpots);
-    listView.setAdapter(parkingListAdapter);
-    listView.setOnItemClickListener(listener);
   }
 }
