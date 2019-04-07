@@ -10,7 +10,7 @@ public class ParkingSpot {
   private String location;
   private String description;
   private String phoneNumber;
-  private float price;
+  private String price;
   private String startTime;
   private String endTime;
   private String startDate;
@@ -23,7 +23,7 @@ public class ParkingSpot {
   }
 
   public ParkingSpot(String id, String ownerEmail, String location, String description,
-      String phoneNumber, float price, String startTime, String endTime, String startDate,
+      String phoneNumber, String price, String startTime, String endTime, String startDate,
       String endDate, String clientEmail) {
     this.id = id;
     this.ownerEmail = ownerEmail;
@@ -70,7 +70,7 @@ public class ParkingSpot {
     return phoneNumber;
   }
 
-  public float getPrice() {
+  public String getPrice() {
     return price;
   }
 

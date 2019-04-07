@@ -30,8 +30,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="50dp"
-        android:text="This is rentee activity"
-        android:textSize="50dp"/>
+        android:background="#DDDDDD"
+        android:divider="#FFCC00"
+        android:dividerHeight="2dp"
+        android:textSize="40sp"/>
 
 
     </LinearLayout>

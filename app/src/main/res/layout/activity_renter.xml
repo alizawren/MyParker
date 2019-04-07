@@ -25,7 +25,7 @@
         android:textColor="@android:color/black"
         android:textSize="20sp"/>
 
-      <EditText
+      <AutoCompleteTextView
         android:id="@+id/location"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -120,9 +120,10 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_margin="50dp"
+        android:background="#DDDDDD"
         android:divider="#FFCC00"
         android:dividerHeight="2dp"
-        android:textSize="50dp"/>
+        android:textSize="40sp"/>
     </LinearLayout>
   </ScrollView>
 

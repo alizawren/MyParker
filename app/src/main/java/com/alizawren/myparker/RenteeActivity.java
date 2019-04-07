@@ -27,15 +27,34 @@ public class RenteeActivity extends AppCompatActivity {
       }
     });
 
-    ListView list = findViewById(R.id.display);
     final ArrayList<ParkingSpot> adapterSpots = new ArrayList<>();
-    final ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-        android.R.layout.simple_list_item_1);
-    list.setAdapter(adapter);
+
+    ParkingUtil.getParkingSpots().onResult(new Consumer<List<ParkingSpot>>() {
+      @Override
+      public void accept(List<ParkingSpot> parkingSpots) {
+        for (ParkingSpot parkingSpot : parkingSpots) {
+          if (parkingSpot.isOwnedBy(MainActivity.currentUser)) {
+            continue;
+          }
+          if (!parkingSpot.isValid()) {
+            continue;
+          }
+          adapterSpots.add(parkingSpot);
+          initParkingList(adapterSpots);
+        }
+      }
+    });
+  }
+
+  private void initParkingList(final List<ParkingSpot> parkingSpots)
+  {
+    ListView list = findViewById(R.id.display);
+    ParkingListAdapter parkingListAdapter = new ParkingListAdapter(this.getApplicationContext(), parkingSpots);
+    list.setAdapter(parkingListAdapter);
     list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
       public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         boolean flag = false;
-        ParkingSpot parkingSpot = adapterSpots.get(position);
+        ParkingSpot parkingSpot = parkingSpots.get(position);
 
         if (parkingSpot.isRented()) {
           if (parkingSpot.isUsedBy(MainActivity.currentUser)) {
@@ -57,27 +76,5 @@ public class RenteeActivity extends AppCompatActivity {
         }
       }
     });
-
-    ParkingUtil.getParkingSpots().onResult(new Consumer<List<ParkingSpot>>() {
-      @Override
-      public void accept(List<ParkingSpot> parkingSpots) {
-        for (ParkingSpot parkingSpot : parkingSpots) {
-          if (parkingSpot.isOwnedBy(MainActivity.currentUser)) {
-            continue;
-          }
-          if (!parkingSpot.isValid()) {
-            continue;
-          }
-          if (parkingSpot.isRented()) {
-            adapter.add("RENTED - " + parkingSpot.toString());
-            adapterSpots.add(parkingSpot);
-          } else {
-            adapter.add(parkingSpot.toString());
-            adapterSpots.add(parkingSpot);
-          }
-        }
-      }
-    });
-
   }
 }

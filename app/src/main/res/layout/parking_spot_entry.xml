@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="horizontal"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
+
+  <LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+      android:id="@+id/parking_location"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textSize="20sp" >
+    </TextView>
+
+    <TextView
+      android:id="@+id/parking_description"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textSize="20sp" >
+    </TextView>
+
+    <TextView
+      android:id="@+id/parking_startTime"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textSize="20sp" >
+
+    </TextView>
+    <TextView
+      android:id="@+id/parking_stopTime"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textSize="20sp" >
+    </TextView>
+
+  </LinearLayout>
+
+  <TextView
+    android:id="@+id/parking_price"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:textSize="30sp"
+    android:text="$0.00" >
+  </TextView>
+
+</LinearLayout>

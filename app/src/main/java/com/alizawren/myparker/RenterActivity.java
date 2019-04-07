@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -23,7 +24,8 @@ import java.util.List;
 
 public class RenterActivity extends AppCompatActivity {
 
-  private EditText locationText, descriptionText, phoneText;
+  private AutoCompleteTextView locationText;
+  private EditText descriptionText, phoneText;
   private Button btnDatePicker, btnTimePicker, btnDatePickerEnd, btnTimePickerEnd;
   private TextView txtDate, txtTime, txtDateEnd, txtTimeEnd;
   private Button submitButton;
@@ -154,33 +156,51 @@ public class RenterActivity extends AppCompatActivity {
         String desc = descriptionText.getText().toString();
         String phone = phoneText.getText().toString();
         String price = priceText.getText().toString();
+        /*
         float priceValue = 0.0F;
         try {
           priceValue = Float.parseFloat(price);
         } catch (Exception ignored) {
         }
+        */
         String startTimeText = txtTime.getText().toString();
         String endTimeText = txtTimeEnd.getText().toString();
         String startDateText = txtDate.getText().toString();
         String endDateText = txtDateEnd.getText().toString();
         User theUser = MainActivity.currentUser;
         ParkingSpot newSpot = new ParkingSpot(ParkingUtil.getNewID(), theUser.getEmail(), location, desc,
-            phone, priceValue, startTimeText, endTimeText, startDateText, endDateText, "");
+            phone, price, startTimeText, endTimeText, startDateText, endDateText, "");
         ParkingUtil.addParkingSpot(theUser, newSpot);
 
         finish();
       }
     });
 
-    ListView list = findViewById(R.id.display);
-    final ArrayList<ParkingSpot> spots = new ArrayList<>();
-    final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-        android.R.layout.simple_list_item_1);
-    list.setAdapter(adapter);
-    list.setOnItemClickListener(new OnItemClickListener() {
+    ParkingUtil.getParkingSpots().onResult(new Consumer<List<ParkingSpot>>() {
       @Override
-      public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        ParkingUtil.removeParkingSpot(spots.get(i));
+      public void accept(List<ParkingSpot> parkingSpots) {
+
+        final ArrayList<ParkingSpot> spots = new ArrayList<>();
+
+        for (ParkingSpot parkingSpot : parkingSpots) {
+          if (parkingSpot.isOwnedBy(MainActivity.currentUser)) {
+            spots.add(parkingSpot);
+          }
+        }
+
+        initParkingList(spots);
+      }
+    });
+  }
+
+  private void initParkingList(final List<ParkingSpot> parkingSpots)
+  {
+    ListView list = findViewById(R.id.display);
+    ParkingListAdapter parkingListAdapter = new ParkingListAdapter(this.getApplicationContext(), parkingSpots);
+    list.setAdapter(parkingListAdapter);
+    list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+      public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        ParkingUtil.removeParkingSpot(parkingSpots.get(position));
 
         //Restart the activity....
         Intent intent = getIntent();
@@ -188,21 +208,7 @@ public class RenterActivity extends AppCompatActivity {
         startActivity(intent);
       }
     });
-
-    ParkingUtil.getParkingSpots().onResult(new Consumer<List<ParkingSpot>>() {
-      @Override
-      public void accept(List<ParkingSpot> parkingSpots) {
-        for (ParkingSpot parkingSpot : parkingSpots) {
-          if (parkingSpot.isOwnedBy(MainActivity.currentUser)) {
-            adapter.add(parkingSpot.toString());
-            spots.add(parkingSpot);
-          }
-        }
-      }
-    });
   }
-
-
 }
 
 
