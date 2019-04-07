@@ -165,11 +165,10 @@ public class RenterActivity extends AppCompatActivity {
         String phone = phoneText.getText().toString();
         String price = priceText.getText().toString();
         float priceValue = 0.0F;
-        try
-        {
+        try {
           priceValue = Float.parseFloat(price);
+        } catch (Exception e) {
         }
-        catch (Exception e) {}
         String startTimeText = txtTime.getText().toString();
         String endTimeText = txtTimeEnd.getText().toString();
         String startDateText = txtDate.getText().toString();

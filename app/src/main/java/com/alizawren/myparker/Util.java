@@ -97,8 +97,7 @@ public class Util {
     return callback;
   }
 
-  static public void removeParkingSpot(ParkingSpot parkingSpot)
-  {
+  static public void removeParkingSpot(ParkingSpot parkingSpot) {
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 

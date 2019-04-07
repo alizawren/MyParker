@@ -38,9 +38,9 @@ public class NumberTextWatcher implements TextWatcher {
         int cp = et.getSelectionStart();
         if (hasFractionalPart) {
           StringBuilder trailingZeros = new StringBuilder();
-	        while (trailingZeroCount-- > 0) {
-		        trailingZeros.append('0');
-	        }
+          while (trailingZeroCount-- > 0) {
+            trailingZeros.append('0');
+          }
           et.setText(df.format(n) + trailingZeros.toString());
         } else {
           et.setText(dfnd.format(n));
@@ -74,11 +74,11 @@ public class NumberTextWatcher implements TextWatcher {
     trailingZeroCount = 0;
     if (index > -1) {
       for (index++; index < s.length(); index++) {
-	      if (s.charAt(index) == '0') {
-		      trailingZeroCount++;
-	      } else {
-		      trailingZeroCount = 0;
-	      }
+        if (s.charAt(index) == '0') {
+          trailingZeroCount++;
+        } else {
+          trailingZeroCount = 0;
+        }
       }
       hasFractionalPart = true;
     } else {
