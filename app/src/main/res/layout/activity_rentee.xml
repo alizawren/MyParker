@@ -38,7 +38,7 @@
         android:id="@+id/display"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="30dp"
+        android:layout_margin="10dp"
           android:padding="10dp"
         android:background="#DDDDDD"
         android:divider="#222222"
@@ -58,12 +58,20 @@
         android:id="@+id/myDisplay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="30dp"
+        android:layout_margin="10dp"
           android:padding="10dp"
         android:background="#DDDDDD"
         android:divider="#222222"
         android:dividerHeight="2dp"
         android:textSize="40sp"/>
+
+      <!--<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
+          android:id="@+id/map"
+          android:name="com.google.android.gms.maps.SupportMapFragment"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          tools:context="com.example.mapwithmarker.MapsMarkerActivity" />-->
 
     </LinearLayout>
   </ScrollView>
