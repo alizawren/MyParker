@@ -54,22 +54,11 @@ public class RenteeActivity extends AppCompatActivity {
         ParkingListAdapter.initParkingListView(context, listView, otherSpots, new OnItemClickListener() {
           @Override
           public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            boolean flag = false;
             ParkingSpot parkingSpot = otherSpots.get(i);
 
-            if (parkingSpot.isRented()) {
-              if (parkingSpot.isUsedBy(MainActivity.currentUser)) {
-                ParkingUtil.unrentParkingSpot(parkingSpot);
-                flag = true;
-              } else {
-                //Not yours!
-              }
-            } else {
+            if (!parkingSpot.isRented()) {
               ParkingUtil.rentParkingSpot(MainActivity.currentUser, parkingSpot);
-              flag = true;
-            }
 
-            if (flag) {
               //Restart the activity....
               Intent intent = getIntent();
               finish();
@@ -84,22 +73,11 @@ public class RenteeActivity extends AppCompatActivity {
 
           @Override
           public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            boolean flag = false;
             ParkingSpot parkingSpot = mySpots.get(i);
 
             if (parkingSpot.isRented()) {
-              if (parkingSpot.isUsedBy(MainActivity.currentUser)) {
-                ParkingUtil.unrentParkingSpot(parkingSpot);
-                flag = true;
-              } else {
-                //Not yours!
-              }
-            } else {
-              ParkingUtil.rentParkingSpot(MainActivity.currentUser, parkingSpot);
-              flag = true;
-            }
+              ParkingUtil.unrentParkingSpot(parkingSpot);
 
-            if (flag) {
               //Restart the activity....
               Intent intent = getIntent();
               finish();
