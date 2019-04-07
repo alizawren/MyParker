@@ -19,7 +19,7 @@ public class ParkingSpot {
   private String id;
 
   public ParkingSpot() {
-
+    this.id = "";
   }
 
   public ParkingSpot(String id, String userEmail, String location, String description,

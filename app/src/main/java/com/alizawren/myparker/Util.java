@@ -2,6 +2,7 @@ package com.alizawren.myparker;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
+import com.alizawren.myparker.util.Callback;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -94,6 +95,34 @@ public class Util {
         });
 
     return callback;
+  }
+
+  static public void removeParkingSpot(ParkingSpot parkingSpot)
+  {
+    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+    FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+
+    if (firebaseUser == null) {
+      return;
+    }
+
+    FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+
+    firestore.collection(PARKING_SPOT_COLLECTION_KEY)
+        .document(parkingSpot.getID())
+        .delete()
+        .addOnSuccessListener(new OnSuccessListener<Void>() {
+          @Override
+          public void onSuccess(Void aVoid) {
+            Log.d(TAG, "Parking spot successfully deleted!");
+          }
+        })
+        .addOnFailureListener(new OnFailureListener() {
+          @Override
+          public void onFailure(@NonNull Exception e) {
+            Log.w(TAG, "Error deleting parking spot", e);
+          }
+        });
   }
 
   static public void rentParkingSpot(ParkingSpot parkingSpot) {

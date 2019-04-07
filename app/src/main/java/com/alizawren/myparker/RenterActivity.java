@@ -3,9 +3,12 @@ package com.alizawren.myparker;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -13,6 +16,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import com.alizawren.myparker.util.Consumer;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -158,14 +163,20 @@ public class RenterActivity extends AppCompatActivity {
         String location = locationText.getText().toString();
         String desc = descriptionText.getText().toString();
         String phone = phoneText.getText().toString();
-        //float price = Float.parseFloat(priceText.getText().toString());
+        String price = priceText.getText().toString();
+        float priceValue = 0.0F;
+        try
+        {
+          priceValue = Float.parseFloat(price);
+        }
+        catch (Exception e) {}
         String startTimeText = txtTime.getText().toString();
         String endTimeText = txtTimeEnd.getText().toString();
         String startDateText = txtDate.getText().toString();
         String endDateText = txtDateEnd.getText().toString();
         User theUser = Util.getCurrentUser();
         ParkingSpot newSpot = new ParkingSpot(Util.getNewID(), theUser.getEmail(), location, desc,
-            phone, 0.0f, startTimeText, endTimeText, startDateText, endDateText, "");
+            phone, priceValue, startTimeText, endTimeText, startDateText, endDateText, "");
         Util.addParkingSpot(theUser, newSpot);
 
         finish();
@@ -173,16 +184,29 @@ public class RenterActivity extends AppCompatActivity {
     });
 
     ListView list = findViewById(R.id.display);
+    final ArrayList<ParkingSpot> spots = new ArrayList<>();
     final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
         android.R.layout.simple_list_item_1);
     list.setAdapter(adapter);
+    list.setOnItemClickListener(new OnItemClickListener() {
+      @Override
+      public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        Util.removeParkingSpot(spots.get(i));
+
+        //Restart the activity....
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
+      }
+    });
 
     Util.getParkingSpots().onResult(new Consumer<List<ParkingSpot>>() {
       @Override
       public void accept(List<ParkingSpot> parkingSpots) {
         for (ParkingSpot parkingSpot : parkingSpots) {
           if (Util.getCurrentUser().getEmail().equals(parkingSpot.userEmail)) {
-            adapter.add(parkingSpot.location);
+            adapter.add(parkingSpot.toString());
+            spots.add(parkingSpot);
           }
         }
       }

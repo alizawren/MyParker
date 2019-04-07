@@ -1,4 +1,4 @@
-package com.alizawren.myparker;
+package com.alizawren.myparker.util;
 
 
 import java.util.Collection;

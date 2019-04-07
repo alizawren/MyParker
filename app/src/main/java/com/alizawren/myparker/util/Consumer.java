@@ -1,10 +1,10 @@
-package com.alizawren.myparker;
+package com.alizawren.myparker.util;
 
 /**
  * Created by Alisa Ren on 4/6/2019.
  */
 
-interface Consumer<T> {
+public interface Consumer<T> {
 
   void accept(T t);
 }
