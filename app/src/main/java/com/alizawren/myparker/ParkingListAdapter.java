@@ -1,10 +1,14 @@
 package com.alizawren.myparker;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import java.util.List;
 
@@ -64,5 +68,13 @@ public class ParkingListAdapter extends BaseAdapter
     }
 
     return view;
+  }
+
+
+  public static void initParkingListView(Context context, ListView listView, final List<ParkingSpot> parkingSpots, OnItemClickListener listener) {
+    ParkingListAdapter parkingListAdapter = new ParkingListAdapter(context.getApplicationContext(),
+        parkingSpots);
+    listView.setAdapter(parkingListAdapter);
+    listView.setOnItemClickListener(listener);
   }
 }

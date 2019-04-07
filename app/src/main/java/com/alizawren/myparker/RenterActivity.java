@@ -176,6 +176,7 @@ public class RenterActivity extends AppCompatActivity {
       }
     });
 
+    final Context context = this;
     ParkingUtil.getParkingSpots().onResult(new Consumer<List<ParkingSpot>>() {
       @Override
       public void accept(List<ParkingSpot> parkingSpots) {
@@ -188,24 +189,18 @@ public class RenterActivity extends AppCompatActivity {
           }
         }
 
-        initParkingList(spots);
-      }
-    });
-  }
+        ListView listView = findViewById(R.id.display);
+        ParkingListAdapter.initParkingListView(context, listView, spots, new OnItemClickListener() {
+          @Override
+          public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            ParkingUtil.removeParkingSpot(spots.get(i));
 
-  private void initParkingList(final List<ParkingSpot> parkingSpots)
-  {
-    ListView list = findViewById(R.id.display);
-    ParkingListAdapter parkingListAdapter = new ParkingListAdapter(this.getApplicationContext(), parkingSpots);
-    list.setAdapter(parkingListAdapter);
-    list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-      public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        ParkingUtil.removeParkingSpot(parkingSpots.get(position));
-
-        //Restart the activity....
-        Intent intent = getIntent();
-        finish();
-        startActivity(intent);
+            //Restart the activity....
+            Intent intent = getIntent();
+            finish();
+            startActivity(intent);
+          }
+        });
       }
     });
   }

@@ -29,12 +29,21 @@
         android:id="@+id/display"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="50dp"
+        android:layout_margin="30dp"
         android:background="#DDDDDD"
         android:divider="#FFCC00"
         android:dividerHeight="2dp"
         android:textSize="40sp"/>
 
+      <ListView
+        android:id="@+id/myDisplay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="30dp"
+        android:background="#DDDDDD"
+        android:divider="#FFCC00"
+        android:dividerHeight="2dp"
+        android:textSize="40sp"/>
 
     </LinearLayout>
   </ScrollView>
