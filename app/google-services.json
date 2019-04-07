@@ -1,0 +1,44 @@
+{
+  "project_info": {
+    "project_number": "925059793468",
+    "firebase_url": "https://myparker-e8acc.firebaseio.com",
+    "project_id": "myparker-e8acc",
+    "storage_bucket": "myparker-e8acc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:925059793468:android:8719744a2a6196fa",
+        "android_client_info": {
+          "package_name": "com.alizawren.myparker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "925059793468-is4o321hq1tok5elivdbbr8171sn5rp4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.alizawren.myparker",
+            "certificate_hash": "f262bf147c53b46b3f275fdafe23170ea9ad8aaa"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCBDAgnFqR3NCk9TIPjVWz7fgO1xJ0d_w0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "925059793468-le6snp8qlod6c03a21seq9lpciu5rqho.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
