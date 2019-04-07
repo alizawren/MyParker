@@ -26,8 +26,8 @@ import java.util.UUID;
 
 public class Util {
 
-    public static final String TAG = "hello";
-    public static User currentUser;
+    public static final String TAG = "Util";
+    private static User currentUser;
 
     static public Callback<List<ParkingSpot>> getParkingSpots()
     {
@@ -104,6 +104,66 @@ public class Util {
                 });
 
         return callback;
+    }
+
+    static public void rentParkingSpot(ParkingSpot parkingSpot)
+    {
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+
+        if (firebaseUser == null)
+        {
+            return;
+        }
+
+        parkingSpot.renteeEmail = currentUser.getEmail();
+
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        firestore.collection("parkingSpots")
+                .document(parkingSpot.getID())
+                .set(parkingSpot)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "Parking spot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing parking spot", e);
+                    }
+                });
+    }
+
+    static public void unrentParkingSpot(ParkingSpot parkingSpot)
+    {
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+
+        if (firebaseUser == null)
+        {
+            return;
+        }
+
+        parkingSpot.renteeEmail = "";
+
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        firestore.collection("parkingSpots")
+                .document(parkingSpot.getID())
+                .set(parkingSpot)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "Parking spot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing parking spot", e);
+                    }
+                });
     }
 
     static public User getCurrentUser()

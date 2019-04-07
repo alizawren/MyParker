@@ -37,8 +37,19 @@ public class ParkingSpot {
         this.renteeEmail = renteeEmail;
     }
 
+    public boolean isRented()
+    {
+        return this.renteeEmail != null && this.renteeEmail.length() > 0;
+    }
+
     public String getID() {
         return id;
+    }
+
+    @Override
+    public String toString()
+    {
+        return this.location + ":" + this.endDate + ":" + this.endTime;
     }
 
 }
