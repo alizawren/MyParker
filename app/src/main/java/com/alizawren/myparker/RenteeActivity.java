@@ -38,14 +38,14 @@ public class RenteeActivity extends AppCompatActivity {
         ParkingSpot parkingSpot = adapterSpots.get(position);
 
         if (parkingSpot.isRented()) {
-          if (parkingSpot.isUsedBy(Util.getCurrentUser())) {
+          if (parkingSpot.isUsedBy(MainActivity.currentUser)) {
             Util.unrentParkingSpot(parkingSpot);
             flag = true;
           } else {
             //Not yours!
           }
         } else {
-          Util.rentParkingSpot(Util.getCurrentUser(), parkingSpot);
+          Util.rentParkingSpot(MainActivity.currentUser, parkingSpot);
           flag = true;
         }
 
@@ -62,7 +62,7 @@ public class RenteeActivity extends AppCompatActivity {
       @Override
       public void accept(List<ParkingSpot> parkingSpots) {
         for (ParkingSpot parkingSpot : parkingSpots) {
-          if (parkingSpot.isOwnedBy(Util.getCurrentUser())) {
+          if (parkingSpot.isOwnedBy(MainActivity.currentUser)) {
             continue;
           }
           if (!parkingSpot.isValid()) {

@@ -26,8 +26,7 @@ public class Util {
 
   public static final String TAG = "Util";
   public static final String PARKING_SPOT_COLLECTION_KEY = "parkingSpots";
-
-  private static User currentUser;
+  public static final String USER_COLLECTION_KEY = "users";
 
   static public Callback<List<ParkingSpot>> getParkingSpots() {
     final Callback<List<ParkingSpot>> callback = new Callback<>();
@@ -179,10 +178,6 @@ public class Util {
         });
   }
 
-  static public User getCurrentUser() {
-    return currentUser;
-  }
-
   static public Callback<User> getUser(final FirebaseUser firebaseUser) {
     System.out.println("Get user is called");
     final Callback<User> callback = new Callback<>();
@@ -195,7 +190,7 @@ public class Util {
 
     final FirebaseFirestore firestore = FirebaseFirestore.getInstance();
 
-    final DocumentReference userReference = firestore.collection("users")
+    final DocumentReference userReference = firestore.collection(USER_COLLECTION_KEY)
         .document(firebaseUser.getUid());
 
     userReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -210,15 +205,10 @@ public class Util {
             firestore.document("emails/" + newUser.getEmail()).set(newUser);
             callback.resolve(newUser);
 
-            //TODO: THIS IS BAD!
-            currentUser = newUser;
             System.out.println("MADE A USER");
           } else {
             User newUser = userDocument.toObject(User.class);
             callback.resolve(newUser);
-
-            //TODO: THIS IS BAD!
-            currentUser = newUser;
 
             System.out.println("had A USER");
           }

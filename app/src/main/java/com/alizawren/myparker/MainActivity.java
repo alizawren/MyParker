@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import com.alizawren.myparker.util.Consumer;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -24,6 +25,9 @@ public class MainActivity extends AppCompatActivity {
 
   public static final String TAG = "MainActivity";
   private static final int RC_SIGN_IN = 80;
+
+  public static User currentUser;
+
   public Button renterButton;
   public Button renteeButton;
   private FirebaseAuth mAuth;
@@ -117,7 +121,14 @@ public class MainActivity extends AppCompatActivity {
               // Sign in success, update UI with the signed-in user's information
               Log.d(TAG, "signInWithCredential:success");
               FirebaseUser user = mAuth.getCurrentUser();
-              Util.getUser(user);
+
+              Util.getUser(user).onResult(new Consumer<User>() {
+                @Override
+                public void accept(User user) {
+                  currentUser = user;
+                }
+              });
+
               updateUI(user);
             } else {
               // If sign in fails, display a message to the user.

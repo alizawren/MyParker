@@ -44,12 +44,10 @@ public class RenterActivity extends AppCompatActivity {
       }
     });
 
-    btnDatePicker = findViewById(R.id.btn_date);
     btnTimePicker = findViewById(R.id.btn_time);
     txtDate = findViewById(R.id.in_date);
     txtTime = findViewById(R.id.in_time);
 
-    btnDatePickerEnd = findViewById(R.id.btn_end_date);
     btnTimePickerEnd = findViewById(R.id.btn_end_time);
     txtDateEnd = findViewById(R.id.in_end_date);
     txtTimeEnd = findViewById(R.id.in_end_time);
@@ -165,7 +163,7 @@ public class RenterActivity extends AppCompatActivity {
         String endTimeText = txtTimeEnd.getText().toString();
         String startDateText = txtDate.getText().toString();
         String endDateText = txtDateEnd.getText().toString();
-        User theUser = Util.getCurrentUser();
+        User theUser = MainActivity.currentUser;
         ParkingSpot newSpot = new ParkingSpot(Util.getNewID(), theUser.getEmail(), location, desc,
             phone, priceValue, startTimeText, endTimeText, startDateText, endDateText, "");
         Util.addParkingSpot(theUser, newSpot);
@@ -195,7 +193,7 @@ public class RenterActivity extends AppCompatActivity {
       @Override
       public void accept(List<ParkingSpot> parkingSpots) {
         for (ParkingSpot parkingSpot : parkingSpots) {
-          if (parkingSpot.isOwnedBy(Util.getCurrentUser())) {
+          if (parkingSpot.isOwnedBy(MainActivity.currentUser)) {
             adapter.add(parkingSpot.toString());
             spots.add(parkingSpot);
           }
