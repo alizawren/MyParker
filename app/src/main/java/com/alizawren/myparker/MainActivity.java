@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -28,26 +29,15 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
 
+    public Button renterButton;
+    public Button renteeButton;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Set the dimensions of the sign-in button.
-        SignInButton signInButton = findViewById(R.id.sign_in_button);
-        signInButton.setSize(SignInButton.SIZE_STANDARD);
-
-        findViewById(R.id.sign_in_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                switch (view.getId()) {
-                    case R.id.sign_in_button:
-                        signIn();
-                        break;
-                    // ...
-                }
-            }
-        });
 
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -61,10 +51,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Build a GoogleSignInClient with the options specified by gso.
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-    }
-    private void randomMethod() {
-        System.out.println("JKLSDFAHSLK");
-        signIn();
+
+        System.out.println("Oncreate called");
     }
 
 
@@ -73,13 +61,15 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
+        Util.getUser(currentUser);
+
         updateUI(currentUser);
 
 
         // Check for existing Google Sign In account, if the user is already signed in
         // the GoogleSignInAccount will be non-null.
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        updateUI2(account);
+        //GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        //updateUI2(account);
 
         Log.w(TAG, "AAAAAAAAAAAAAAA");
         signIn();
@@ -88,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void signIn() {
+        System.out.println("SIGNIN CALLED");
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
@@ -102,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
             try {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult(ApiException.class);
+                System.out.println("here");
                 firebaseAuthWithGoogle(account);
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
@@ -168,12 +160,60 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void updateUI(FirebaseUser user) {
-        System.out.println(user);
+        if (user == null) {
+            // User not signed in yet, show sign in button
+
+            // Set the dimensions of the sign-in button.
+            /*SignInButton signInButton = findViewById(R.id.sign_in_button);
+            signInButton.setSize(SignInButton.SIZE_STANDARD);
+
+            findViewById(R.id.sign_in_button).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    switch (view.getId()) {
+                        case R.id.sign_in_button:
+                            signIn();
+                            break;
+                        // ...
+                    }
+                }
+            });*/
+
+        }
+        else {
+            renterButton = findViewById(R.id.renter_button);
+            renteeButton = findViewById(R.id.rentee_button);
+
+            renteeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    launchRenteeActivity();
+                }
+            });
+            renterButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    launchRenterActivity();
+                }
+            });
+        }
     }
 
-    public void updateUI2(GoogleSignInAccount user) {
-        System.out.println(user);
+    private void launchRenteeActivity()
+    {
+        final Intent intent = new Intent(this, RenteeActivity.class);
+        this.startActivity(intent);
     }
+
+    private void launchRenterActivity()
+    {
+        final Intent intent = new Intent(this, RenterActivity.class);
+        this.startActivity(intent);
+    }
+
+    //public void updateUI2(GoogleSignInAccount user) {
+    //    System.out.println(user);
+    //}
 
 
 

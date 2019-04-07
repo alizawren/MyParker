@@ -16,6 +16,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".RenteeActivity" />
+        <activity android:name=".RenterActivity"></activity>
     </application>
 
 </manifest>

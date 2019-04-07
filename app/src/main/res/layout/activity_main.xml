@@ -12,9 +12,38 @@
         android:text="Hello World!" />
 
 
-    <com.google.android.gms.common.SignInButton
+    <!--<com.google.android.gms.common.SignInButton
         android:id="@+id/sign_in_button"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content" />-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:paddingTop="20dp">
+
+        <Button
+            android:id="@+id/renter_button"
+            android:layout_width="80dp"
+            android:layout_height="25dp"
+            android:background="@android:color/background_light"
+            android:text="Renter"
+            android:layout_margin="25dp"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/rentee_button"
+            android:layout_width="80dp"
+            android:layout_height="25dp"
+            android:layout_margin="25dp"
+            android:background="@android:color/background_light"
+            android:text="Rentee"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
+
+    </LinearLayout>
 
 </LinearLayout>
