@@ -105,7 +105,16 @@ public class ParkingSpot {
 
   @Override
   public String toString() {
-    return this.location + ":" + this.endDate + ":" + this.endTime;
+    String toReturn = "";
+    toReturn += "Parking Spot\n";
+    toReturn += "Location: " + this.location +"\n";
+    toReturn += "Description: " + this.description +"\n";
+    toReturn += "Contact: " + this.phoneNumber +"\n";
+    toReturn += "Price: " + this.price +"\n";
+    toReturn += "Available from: " + this.startDate + " " + this.startTime +"\n";
+    toReturn += "Available until: " + this.endDate + " " + this.endTime + "\n";
+
+    return toReturn;
   }
 
 }

@@ -41,7 +41,7 @@
         android:layout_margin="30dp"
           android:padding="10dp"
         android:background="#DDDDDD"
-        android:divider="#111111"
+        android:divider="#222222"
         android:dividerHeight="2dp"
         android:textSize="40sp"/>
 
@@ -61,7 +61,7 @@
         android:layout_margin="30dp"
           android:padding="10dp"
         android:background="#DDDDDD"
-        android:divider="#FFCC00"
+        android:divider="#222222"
         android:dividerHeight="2dp"
         android:textSize="40sp"/>
 
